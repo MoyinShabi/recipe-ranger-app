@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:recipe_ranger_app/screens/categories_screen.dart';
+import 'package:recipe_ranger_app/screens/all_categories_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const CategoriesScreen(),
+      home: const AllCategoriesScreen(),
     );
   }
 }

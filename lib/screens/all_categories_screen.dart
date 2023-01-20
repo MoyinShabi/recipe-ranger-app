@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:recipe_ranger_app/dummy_data.dart';
 import 'package:recipe_ranger_app/widgets/category_item.dart';
 
-class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({super.key});
+class AllCategoriesScreen extends StatelessWidget {
+  const AllCategoriesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,10 @@ class CategoriesScreen extends StatelessWidget {
           children: dummyCategories
               .map(
                 (categoryData) => CategoryItem(
-                    title: categoryData.title, color: categoryData.color),
+                  title: categoryData.title,
+                  color: categoryData.color,
+                  id: categoryData.id,
+                ),
               )
               .toList()),
     );

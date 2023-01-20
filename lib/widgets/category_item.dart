@@ -3,15 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:recipe_ranger_app/screens/category_recipes_screen.dart';
 
 class CategoryItem extends StatelessWidget {
+  final String id;
   final String title;
   final Color color;
 
-  const CategoryItem({super.key, required this.title, required this.color});
+  const CategoryItem({
+    super.key,
+    required this.title,
+    required this.color,
+    required this.id,
+  });
 
   void selectCategory(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => const CategoryRecipesScreen(),
+        builder: (_) => CategoryRecipesScreen(
+          categoryId: id,
+          categoryTitle: title,
+        ),
       ),
     );
   }
@@ -24,7 +33,10 @@ class CategoryItem extends StatelessWidget {
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [color.withOpacity(0.7), color],
+            colors: [
+              color.withOpacity(0.7),
+              color,
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
