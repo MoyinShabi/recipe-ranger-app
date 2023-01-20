@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:recipe_ranger_app/dummy_data.dart';
 import 'package:recipe_ranger_app/widgets/category_item.dart';
@@ -10,6 +11,14 @@ class CategoriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        centerTitle: true,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+          // statusBarBrightness: Brightness.light, // For iOS (light icons)
+        ),
         title: const Text('RecipeRanger'),
       ),
       body: GridView(

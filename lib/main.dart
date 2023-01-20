@@ -11,7 +11,27 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'RecipeRanger',
-      theme: ThemeData(primarySwatch: Colors.amber),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber)
+            .copyWith(secondary: Colors.black),
+        // canvasColor: const Color.fromRGBO(255, 254, 229, 1),
+        fontFamily: 'RobotoCondensed',
+        textTheme: const TextTheme(
+          headline6: TextStyle(
+            fontFamily: 'Raleway',
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'Raleway',
+            fontSize: 21,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+      ),
       home: const CategoriesScreen(),
     );
   }
