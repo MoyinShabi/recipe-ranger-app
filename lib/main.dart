@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:recipe_ranger_app/screens/all_categories_screen.dart';
+import 'package:recipe_ranger_app/screens/category_recipes_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -32,7 +33,12 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const AllCategoriesScreen(),
+      // home: const AllCategoriesScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const AllCategoriesScreen(),
+        '/category-recipes': (context) => const CategoryRecipesScreen(),
+      },
     );
   }
 }

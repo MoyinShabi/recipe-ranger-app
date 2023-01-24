@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:recipe_ranger_app/screens/category_recipes_screen.dart';
-
 class CategoryItem extends StatelessWidget {
   final String id;
   final String title;
@@ -15,13 +13,14 @@ class CategoryItem extends StatelessWidget {
   });
 
   void selectCategory(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => CategoryRecipesScreen(
-          categoryId: id,
-          categoryTitle: title,
-        ),
-      ),
+    Navigator.of(context).pushNamed(
+      '/category-recipes',
+      arguments: {
+        'id': id,
+        'title': title,
+      },
+      // The map is passed as arguments to the new screen which is loaded
+      // for the named route above which leads to the `CategoryRecipesScreen()`
     );
   }
 
