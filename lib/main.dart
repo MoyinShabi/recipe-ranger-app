@@ -37,7 +37,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const AllCategoriesScreen(),
-        '/category-recipes': (context) => const CategoryRecipesScreen(),
+        CategoryRecipesScreen.routeName: (context) =>
+            const CategoryRecipesScreen(),
       },
     );
   }

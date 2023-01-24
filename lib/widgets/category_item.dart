@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_ranger_app/screens/category_recipes_screen.dart';
 
 class CategoryItem extends StatelessWidget {
   final String id;
@@ -14,7 +15,7 @@ class CategoryItem extends StatelessWidget {
 
   void selectCategory(BuildContext context) {
     Navigator.of(context).pushNamed(
-      '/category-recipes',
+      CategoryRecipesScreen.routeName,
       arguments: {
         'id': id,
         'title': title,

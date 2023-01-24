@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 class CategoryRecipesScreen extends StatelessWidget {
   const CategoryRecipesScreen({super.key});
 
+  static const routeName = '/category-recipes';
+
   @override
   Widget build(BuildContext context) {
     // Getting info about the route that was loaded to display this widget:
