@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
+import 'package:recipe_ranger_app/dummy_data.dart';
 
 class CategoryRecipesScreen extends StatelessWidget {
   const CategoryRecipesScreen({super.key});
@@ -14,13 +14,20 @@ class CategoryRecipesScreen extends StatelessWidget {
 
     final categoryTitle = routeArguments['title'];
     final categoryId = routeArguments['id'];
+    // Filtered category recipes to display according to the
+    // category id of the selected category:
+    final categoryRecipes = dummyRecipes
+        .where((recipe) => recipe.categories.contains(categoryId))
+        .toList();
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: Text(categoryTitle!),
-      ),
-      // body: ListView.builder(itemBuilder: (context, index) => , itemCount: ,)
-    );
+        appBar: AppBar(
+          elevation: 0,
+          title: Text(categoryTitle!),
+        ),
+        body: ListView.builder(
+          itemCount: categoryRecipes.length,
+          itemBuilder: (context, index) => Text(categoryRecipes[index].title),
+        ));
   }
 }
