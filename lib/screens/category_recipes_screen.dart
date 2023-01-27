@@ -22,19 +22,20 @@ class CategoryRecipesScreen extends StatelessWidget {
         .toList();
 
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          title: Text(categoryTitle!),
+      appBar: AppBar(
+        elevation: 0,
+        title: Text(categoryTitle!),
+      ),
+      body: ListView.builder(
+        itemCount: categoryRecipes.length,
+        itemBuilder: (context, index) => RecipeItem(
+          title: categoryRecipes[index].title,
+          imageUrl: categoryRecipes[index].imageUrl,
+          duration: categoryRecipes[index].duration,
+          complexity: categoryRecipes[index].complexity,
+          affordability: categoryRecipes[index].affordability,
         ),
-        body: ListView.builder(
-          itemCount: categoryRecipes.length,
-          itemBuilder: (context, index) => RecipeItem(
-            title: categoryRecipes[index].title,
-            imageUrl: categoryRecipes[index].imageUrl,
-            duration: categoryRecipes[index].duration,
-            complexity: categoryRecipes[index].complexity,
-            affordability: categoryRecipes[index].affordability,
-          ),
-        ));
+      ),
+    );
   }
 }

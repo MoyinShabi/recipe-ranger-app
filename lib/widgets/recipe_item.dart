@@ -25,7 +25,7 @@ class RecipeItem extends StatelessWidget {
       onTap: () => selectRecipe,
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(20),
         ),
         margin: const EdgeInsets.all(15),
         child: Column(
@@ -34,8 +34,8 @@ class RecipeItem extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
                   child: Image.network(
                     imageUrl,
@@ -43,9 +43,66 @@ class RecipeItem extends StatelessWidget {
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
+                ),
+                Positioned(
+                  bottom: 20,
+                  right: 10,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    width: 250,
+                    color: Colors.black54,
+                    child: Text(
+                      title,
+                      style: const TextStyle(fontSize: 24, color: Colors.white),
+                      softWrap: true,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
                 )
               ],
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.schedule,
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text('$duration min')
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.error_outline_rounded,
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(complexity.name)
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.attach_money_outlined,
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(affordability.name)
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
