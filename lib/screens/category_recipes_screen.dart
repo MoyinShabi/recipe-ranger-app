@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_ranger_app/dummy_data.dart';
+import 'package:recipe_ranger_app/widgets/recipe_item.dart';
 
 class CategoryRecipesScreen extends StatelessWidget {
   const CategoryRecipesScreen({super.key});
@@ -27,7 +28,13 @@ class CategoryRecipesScreen extends StatelessWidget {
         ),
         body: ListView.builder(
           itemCount: categoryRecipes.length,
-          itemBuilder: (context, index) => Text(categoryRecipes[index].title),
+          itemBuilder: (context, index) => RecipeItem(
+            title: categoryRecipes[index].title,
+            imageUrl: categoryRecipes[index].imageUrl,
+            duration: categoryRecipes[index].duration,
+            complexity: categoryRecipes[index].complexity,
+            affordability: categoryRecipes[index].affordability,
+          ),
         ));
   }
 }
