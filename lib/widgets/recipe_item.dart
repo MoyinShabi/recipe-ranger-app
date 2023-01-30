@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_ranger_app/models/recipe.dart';
+import 'package:recipe_ranger_app/screens/recipe_details_screen.dart';
 
 class RecipeItem extends StatelessWidget {
+  final String id;
   final String title;
   final String imageUrl;
   final int duration;
@@ -15,14 +17,18 @@ class RecipeItem extends StatelessWidget {
     required this.duration,
     required this.complexity,
     required this.affordability,
+    required this.id,
   });
 
-  void selectRecipe() {}
+  void selectRecipe(BuildContext context) {
+    Navigator.of(context)
+        .pushNamed(RecipeDetailsScreen.routeName, arguments: id);
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => selectRecipe,
+      onTap: () => selectRecipe(context),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
@@ -63,7 +69,7 @@ class RecipeItem extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(17.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -97,7 +103,9 @@ class RecipeItem extends StatelessWidget {
                       const SizedBox(
                         width: 4,
                       ),
-                      Text(affordability.name)
+                      Text(
+                        affordability.name,
+                      )
                     ],
                   ),
                 ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:recipe_ranger_app/dummy_data.dart';
 import 'package:recipe_ranger_app/widgets/recipe_item.dart';
 
@@ -23,7 +24,12 @@ class CategoryRecipesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+        ),
         title: Text(categoryTitle!),
       ),
       body: ListView.builder(
@@ -34,6 +40,7 @@ class CategoryRecipesScreen extends StatelessWidget {
           duration: categoryRecipes[index].duration,
           complexity: categoryRecipes[index].complexity,
           affordability: categoryRecipes[index].affordability,
+          id: categoryRecipes[index].id,
         ),
       ),
     );

@@ -1,6 +1,6 @@
 enum Complexity { simple, challenging, hard }
 
-enum Affordability { affordable, pricy, luxurious }
+enum Affordability { affordable, pricey, luxurious }
 
 class Recipe {
   final String id;

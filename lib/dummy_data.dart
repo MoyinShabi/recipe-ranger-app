@@ -126,7 +126,7 @@ const dummyRecipes = [
       'c3',
     ],
     title: 'Classic Hamburger',
-    affordability: Affordability.pricy,
+    affordability: Affordability.pricey,
     complexity: Complexity.simple,
     imageUrl:
         'https://cdn.pixabay.com/photo/2014/10/23/18/05/burger-500054_1280.jpg',
@@ -295,7 +295,7 @@ const dummyRecipes = [
       'c8',
     ],
     title: 'Creamy Indian Chicken Curry',
-    affordability: Affordability.pricy,
+    affordability: Affordability.pricey,
     complexity: Complexity.challenging,
     imageUrl:
         'https://cdn.pixabay.com/photo/2018/06/18/16/05/indian-food-3482749_1280.jpg',
