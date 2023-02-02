@@ -75,37 +75,23 @@ class RecipeItem extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const Icon(
-                        Icons.schedule,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text('$duration min')
+                      const Icon(Icons.schedule),
+                      const SizedBox(width: 4),
+                      Text('$duration min'),
                     ],
                   ),
                   Row(
                     children: [
-                      const Icon(
-                        Icons.error_outline_rounded,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text(complexity.name)
+                      const Icon(Icons.error_outline_rounded),
+                      const SizedBox(width: 4),
+                      Text(complexity.name),
                     ],
                   ),
                   Row(
                     children: [
-                      const Icon(
-                        Icons.attach_money_outlined,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text(
-                        affordability.name,
-                      )
+                      const Icon(Icons.attach_money_outlined),
+                      const SizedBox(width: 4),
+                      Text(affordability.name),
                     ],
                   ),
                 ],

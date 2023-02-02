@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(
             fontFamily: 'Raleway',
-            fontSize: 21,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
