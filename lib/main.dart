@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         // canvasColor: const Color.fromRGBO(255, 254, 229, 1),
         fontFamily: 'RobotoCondensed',
         textTheme: const TextTheme(
-          headline6: TextStyle(
+          titleLarge: TextStyle(
             fontFamily: 'Raleway',
             fontSize: 18,
             fontWeight: FontWeight.bold,

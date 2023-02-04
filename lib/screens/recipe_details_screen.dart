@@ -11,21 +11,7 @@ class RecipeDetailsScreen extends StatelessWidget {
   Widget buildSectionTitle(BuildContext context, String text) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      child: Text(text, style: Theme.of(context).textTheme.headline6),
-    );
-  }
-
-  Widget buildContainer(ListView child) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      margin: const EdgeInsets.all(10),
-      padding: const EdgeInsets.all(10),
-      height: 200, // TODO: Use a MediaQuery to adjust this height
-      width: 300,
-      child: child,
+      child: Text(text, style: Theme.of(context).textTheme.titleLarge),
     );
   }
 
@@ -58,40 +44,62 @@ class RecipeDetailsScreen extends StatelessWidget {
               ),
             ),
             buildSectionTitle(context, 'Ingredients'),
-            buildContainer(
-              ListView.builder(
-                itemCount: selectedMeal.ingredients.length,
-                itemBuilder: (context, index) => Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-                  child: Text(
-                    selectedMeal.ingredients[index],
-                    // textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 18,
-                    ),
+            _ListContainer(
+                child: ListView.builder(
+              itemCount: selectedMeal.ingredients.length,
+              itemBuilder: (context, index) => Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                child: Text(
+                  selectedMeal.ingredients[index],
+                  // textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 18,
                   ),
                 ),
               ),
-            ),
+            )),
             buildSectionTitle(context, 'Steps'),
-            buildContainer(
-              ListView.separated(
-                separatorBuilder: (context, index) => const Divider(),
-                itemCount: selectedMeal.steps.length,
-                itemBuilder: (context, index) => ListTile(
-                  leading: CircleAvatar(
-                    child: Text('# ${index + 1}'),
-                  ),
-                  title: Text(
-                    selectedMeal.steps[index],
-                  ),
+            _ListContainer(
+                child: ListView.separated(
+              separatorBuilder: (context, index) => const Divider(),
+              itemCount: selectedMeal.steps.length,
+              itemBuilder: (context, index) => ListTile(
+                leading: CircleAvatar(
+                  child: Text('# ${index + 1}'),
+                ),
+                title: Text(
+                  selectedMeal.steps[index],
                 ),
               ),
-            ),
+            )),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _ListContainer extends StatelessWidget {
+  const _ListContainer({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
+
+  final ListView child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
+      height: 200, // TODO: Use a MediaQuery to adjust this height
+      width: 300,
+      child: child,
     );
   }
 }
