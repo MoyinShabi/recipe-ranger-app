@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'RecipeRanger',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber)
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blueGrey)
             .copyWith(secondary: Colors.black),
         // canvasColor: const Color.fromRGBO(255, 254, 229, 1),
         fontFamily: 'RobotoCondensed',
@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
+          iconTheme: IconThemeData(color: Colors.black),
         ),
       ),
       // home: const AllCategoriesScreen(),
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
-          builder: (context) => const AllCategoriesScreen(),
+          builder: (context) => const AllCategories(),
         );
       },
     );

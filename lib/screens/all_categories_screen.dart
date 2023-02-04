@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:recipe_ranger_app/dummy_data.dart';
 import 'package:recipe_ranger_app/widgets/category_item.dart';
 
-class AllCategoriesScreen extends StatelessWidget {
-  const AllCategoriesScreen({super.key});
+class AllCategories extends StatelessWidget {
+  const AllCategories({super.key});
 
   @override
   Widget build(BuildContext context) {
