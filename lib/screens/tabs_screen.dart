@@ -45,7 +45,7 @@ class _TabsScreenState extends State<TabsScreen> {
         ),
         title: Text(_pages[_selectedPageIndex]['title']),
       ),
-      // drawer: const MainDrawer(),
+      drawer: const MainDrawer(),
       body: _pages[_selectedPageIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
