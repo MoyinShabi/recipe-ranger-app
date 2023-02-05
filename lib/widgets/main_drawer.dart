@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_ranger_app/screens/settings_screen.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});
@@ -25,13 +26,16 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          const _ListItem(
-            text: 'Recipes',
-            icon: Icon(Icons.restaurant_menu_rounded),
+          _ListItem(
+            text: 'Recipe Categories',
+            icon: const Icon(Icons.restaurant_menu_rounded),
+            tapHandler: () => Navigator.of(context).pushNamed('/'),
           ),
-          const _ListItem(
+          _ListItem(
             text: 'Settings',
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
+            tapHandler: () =>
+                Navigator.of(context).pushNamed(SettingsScreen.routeName),
           )
         ],
       ),
@@ -42,10 +46,11 @@ class MainDrawer extends StatelessWidget {
 class _ListItem extends StatelessWidget {
   final String text;
   final Widget icon;
-  // final VoidCallback selectItem;
+  final VoidCallback tapHandler;
   const _ListItem({
     required this.text,
     required this.icon,
+    required this.tapHandler,
   });
 
   @override
@@ -59,7 +64,7 @@ class _ListItem extends StatelessWidget {
             fontSize: 22,
             fontWeight: FontWeight.bold),
       ),
-      onTap: () {},
+      onTap: tapHandler,
     );
   }
 }

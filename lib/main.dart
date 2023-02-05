@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_ranger_app/screens/all_categories_screen.dart';
 import 'package:recipe_ranger_app/screens/category_recipes_screen.dart';
 import 'package:recipe_ranger_app/screens/recipe_details_screen.dart';
+import 'package:recipe_ranger_app/screens/settings_screen.dart';
 import 'package:recipe_ranger_app/screens/tabs_screen.dart';
 
 void main() => runApp(const MyApp());
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         CategoryRecipesScreen.routeName: (context) =>
             const CategoryRecipesScreen(),
         RecipeDetailsScreen.routeName: (context) => const RecipeDetailsScreen(),
+        SettingsScreen.routeName: (context) => const SettingsScreen(),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
