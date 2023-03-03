@@ -29,13 +29,13 @@ class MainDrawer extends StatelessWidget {
           _ListItem(
             text: 'Recipe Categories',
             icon: const Icon(Icons.restaurant_menu_rounded),
-            tapHandler: () => Navigator.of(context).pushNamed('/'),
+            tapHandler: () => Navigator.of(context).pushReplacementNamed('/'),
           ),
           _ListItem(
             text: 'Settings',
             icon: const Icon(Icons.settings),
-            tapHandler: () =>
-                Navigator.of(context).pushNamed(SettingsScreen.routeName),
+            tapHandler: () => Navigator.of(context)
+                .pushReplacementNamed(SettingsScreen.routeName),
           )
         ],
       ),

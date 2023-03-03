@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:recipe_ranger_app/dummy_data.dart';
+import 'package:recipe_ranger_app/constants/dummy_data.dart';
 
 class RecipeDetailsScreen extends StatelessWidget {
   const RecipeDetailsScreen({super.key});
