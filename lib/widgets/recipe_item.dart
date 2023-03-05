@@ -34,6 +34,9 @@ class RecipeItem extends StatelessWidget {
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
+          side: const BorderSide(
+            color: Colors.grey,
+          ),
         ),
         margin: const EdgeInsets.all(15),
         child: Column(
