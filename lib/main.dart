@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_ranger_app/constants/dummy_data.dart';
+import 'package:recipe_ranger_app/models/recipe.dart';
 
 import 'package:recipe_ranger_app/screens/all_categories_screen.dart';
 import 'package:recipe_ranger_app/screens/category_recipes_screen.dart';
@@ -8,8 +10,47 @@ import 'package:recipe_ranger_app/screens/tabs_screen.dart';
 
 void main() => runApp(const MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Map<String, bool> _settings = {
+    'gluten': false,
+    'lactose': false,
+    'vegan': false,
+    'vegetarian': false,
+  };
+
+  List<Recipe> _availableRecipes = dummyRecipes;
+
+  void _enableSettings(Map<String, bool> settingsData) {
+    setState(() {
+      _settings = settingsData;
+
+      _availableRecipes = dummyRecipes.where((recipe) {
+        /* Logic: This does not return to the list, the recipes which satisfy the conditions in each
+        if statement.  */
+
+        if (_settings['gluten'] == true && !recipe.isGlutenFree) {
+          return false;
+        }
+        if (_settings['lactose'] == true && !recipe.isLactoseFree) {
+          return false;
+        }
+        if (_settings['vegan'] == true && !recipe.isVegan) {
+          return false;
+        }
+        if (_settings['vegetarian'] == true && !recipe.isVegetarian) {
+          return false;
+        }
+        return true;
+      }).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +83,12 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const TabsScreen(),
         CategoryRecipesScreen.routeName: (context) =>
-            const CategoryRecipesScreen(),
+            CategoryRecipesScreen(availableRecipes: _availableRecipes),
         RecipeDetailsScreen.routeName: (context) => const RecipeDetailsScreen(),
-        SettingsScreen.routeName: (context) => const SettingsScreen(),
+        SettingsScreen.routeName: (context) => SettingsScreen(
+              currentSettings: _settings,
+              saveSettings: _enableSettings,
+            ),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(

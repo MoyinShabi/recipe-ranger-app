@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:recipe_ranger_app/widgets/main_drawer.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  const SettingsScreen({
+    super.key,
+    required this.saveSettings,
+    required this.currentSettings,
+  });
 
   static const routeName = '/settings';
+
+  final Map<String, bool> currentSettings;
+  final void Function(Map<String, bool>) saveSettings;
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -12,9 +19,18 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _glutenFree = false;
+  bool _lactoseFree = false;
   bool _vegetarian = false;
   bool _vegan = false;
-  bool _lactoseFree = false;
+
+  @override
+  void initState() {
+    _glutenFree = widget.currentSettings['gluten']!;
+    _lactoseFree = widget.currentSettings['lactose']!;
+    _vegetarian = widget.currentSettings['vegetarian']!;
+    _vegan = widget.currentSettings['vegan']!;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +38,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
         appBar: AppBar(
           elevation: 0,
           title: const Text('Settings'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  final selectedSettings = {
+                    'gluten': _glutenFree,
+                    'lactose': _lactoseFree,
+                    'vegan': _vegan,
+                    'vegetarian': _vegetarian,
+                  };
+                  widget.saveSettings(selectedSettings);
+                  Navigator.of(context).pushReplacementNamed('/');
+                },
+                icon: const Icon(Icons.save_rounded))
+          ],
         ),
         drawer: const MainDrawer(),
         body: Column(
@@ -53,22 +83,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     },
                   ),
                   _SettingSwitch(
-                    settingTitle: 'Vegan',
-                    settingDescription: 'Only include vegan meals',
-                    currentValue: _vegan,
-                    updateValue: (newValue) {
-                      setState(() {
-                        _vegan = newValue;
-                      });
-                    },
-                  ),
-                  _SettingSwitch(
                     settingTitle: 'Vegetarian',
                     settingDescription: 'Only include vegetarian meals',
                     currentValue: _vegetarian,
                     updateValue: (newValue) {
                       setState(() {
                         _vegetarian = newValue;
+                      });
+                    },
+                  ),
+                  _SettingSwitch(
+                    settingTitle: 'Vegan',
+                    settingDescription: 'Only include vegan meals',
+                    currentValue: _vegan,
+                    updateValue: (newValue) {
+                      setState(() {
+                        _vegan = newValue;
                       });
                     },
                   ),

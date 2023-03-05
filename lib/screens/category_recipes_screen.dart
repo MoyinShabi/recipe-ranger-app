@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:recipe_ranger_app/constants/dummy_data.dart';
+import 'package:recipe_ranger_app/models/recipe.dart';
 import 'package:recipe_ranger_app/widgets/recipe_item.dart';
 
 class CategoryRecipesScreen extends StatelessWidget {
-  const CategoryRecipesScreen({super.key});
+  const CategoryRecipesScreen({
+    super.key,
+    required this.availableRecipes,
+  });
 
   static const routeName = '/category-recipes';
+
+  final List<Recipe> availableRecipes;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,7 @@ class CategoryRecipesScreen extends StatelessWidget {
     final categoryId = routeArguments['id'];
     // Filtered category recipes to display according to the
     // category id of the selected category:
-    final categoryRecipes = dummyRecipes
+    final categoryRecipes = availableRecipes
         .where((recipe) => recipe.categories.contains(categoryId))
         .toList();
 
@@ -32,17 +37,26 @@ class CategoryRecipesScreen extends StatelessWidget {
         ),
         title: Text(categoryTitle!),
       ),
-      body: ListView.builder(
-        itemCount: categoryRecipes.length,
-        itemBuilder: (context, index) => RecipeItem(
-          title: categoryRecipes[index].title,
-          imageUrl: categoryRecipes[index].imageUrl,
-          duration: categoryRecipes[index].duration,
-          complexity: categoryRecipes[index].complexity,
-          affordability: categoryRecipes[index].affordability,
-          id: categoryRecipes[index].id,
-        ),
-      ),
+      body: categoryRecipes.isEmpty
+          ? const Center(
+              child: Text(
+                'Nothing to display here!',
+                style: TextStyle(
+                  fontFamily: 'Raleway',
+                ),
+              ),
+            )
+          : ListView.builder(
+              itemCount: categoryRecipes.length,
+              itemBuilder: (context, index) => RecipeItem(
+                title: categoryRecipes[index].title,
+                imageUrl: categoryRecipes[index].imageUrl,
+                duration: categoryRecipes[index].duration,
+                complexity: categoryRecipes[index].complexity,
+                affordability: categoryRecipes[index].affordability,
+                id: categoryRecipes[index].id,
+              ),
+            ),
     );
   }
 }
