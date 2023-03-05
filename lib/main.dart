@@ -26,6 +26,7 @@ class _MyAppState extends State<MyApp> {
   };
 
   List<Recipe> _availableRecipes = dummyRecipes;
+  final List<Recipe> _favouriteRecipes = [];
 
   void _enableSettings(Map<String, bool> settingsData) {
     setState(() {
@@ -50,6 +51,25 @@ class _MyAppState extends State<MyApp> {
         return true;
       }).toList();
     });
+  }
+
+  void _toggleFavourite(String recipeId) {
+    final existingIndex =
+        _favouriteRecipes.indexWhere((recipe) => recipe.id == recipeId);
+    if (existingIndex >= 0) {
+      setState(() {
+        _favouriteRecipes.removeAt(existingIndex);
+      });
+    } else {
+      setState(() {
+        _favouriteRecipes
+            .add(dummyRecipes.firstWhere((recipe) => recipe.id == recipeId));
+      });
+    }
+  }
+
+  bool _isRecipeFavourite(String id) {
+    return _favouriteRecipes.any((recipe) => recipe.id == id);
   }
 
   @override
@@ -81,10 +101,15 @@ class _MyAppState extends State<MyApp> {
       // home: const AllCategoriesScreen(),
       initialRoute: '/',
       routes: {
-        '/': (context) => const TabsScreen(),
+        '/': (context) => TabsScreen(
+              favouriteRecipes: _favouriteRecipes,
+            ),
         CategoryRecipesScreen.routeName: (context) =>
             CategoryRecipesScreen(availableRecipes: _availableRecipes),
-        RecipeDetailsScreen.routeName: (context) => const RecipeDetailsScreen(),
+        RecipeDetailsScreen.routeName: (context) => RecipeDetailsScreen(
+              toggleFavourite: _toggleFavourite,
+              recipeIsFavourite: _isRecipeFavourite,
+            ),
         SettingsScreen.routeName: (context) => SettingsScreen(
               currentSettings: _settings,
               saveSettings: _enableSettings,

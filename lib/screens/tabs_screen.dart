@@ -1,29 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:recipe_ranger_app/models/recipe.dart';
 import 'package:recipe_ranger_app/screens/all_categories_screen.dart';
 import 'package:recipe_ranger_app/screens/favourites_screen.dart';
 import 'package:recipe_ranger_app/widgets/main_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
-  const TabsScreen({super.key});
+  const TabsScreen({
+    super.key,
+    required this.favouriteRecipes,
+  });
+
+  final List<Recipe> favouriteRecipes;
 
   @override
   State<TabsScreen> createState() => _TabsScreenState();
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  final List<Map<String, dynamic>> _pages = [
-    {
-      'page': const AllCategories(),
-      'title': 'Categories',
-    },
-    {
-      'page': const FavouritesScreen(),
-      'title': 'Favourites',
-    },
-  ];
+  late List<Map<String, dynamic>> _pages;
 
   int _selectedPageIndex = 0;
+
+  @override
+  void initState() {
+    _pages = [
+      {
+        'page': const AllCategories(),
+        'title': 'Categories',
+      },
+      {
+        'page': FavouritesScreen(
+          favouriteRecipes: widget.favouriteRecipes,
+        ),
+        'title': 'Favourites',
+      },
+    ];
+    super.initState();
+  }
 
   void _selectPage(int index) {
     setState(() {

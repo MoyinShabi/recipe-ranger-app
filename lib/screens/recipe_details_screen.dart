@@ -4,9 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:recipe_ranger_app/constants/dummy_data.dart';
 
 class RecipeDetailsScreen extends StatelessWidget {
-  const RecipeDetailsScreen({super.key});
+  const RecipeDetailsScreen({
+    super.key,
+    required this.toggleFavourite,
+    required this.recipeIsFavourite,
+  });
 
   static const routeName = '/recipe-details';
+
+  final void Function(String) toggleFavourite;
+  final bool Function(String) recipeIsFavourite;
 
   Widget buildSectionTitle(BuildContext context, String text) {
     return Container(
@@ -61,20 +68,29 @@ class RecipeDetailsScreen extends StatelessWidget {
             )),
             buildSectionTitle(context, 'Steps'),
             _ListContainer(
-                child: ListView.separated(
-              separatorBuilder: (context, index) => const Divider(),
-              itemCount: selectedMeal.steps.length,
-              itemBuilder: (context, index) => ListTile(
-                leading: CircleAvatar(
-                  child: Text('# ${index + 1}'),
-                ),
-                title: Text(
-                  selectedMeal.steps[index],
+              child: ListView.separated(
+                separatorBuilder: (context, index) => const Divider(),
+                itemCount: selectedMeal.steps.length,
+                itemBuilder: (context, index) => ListTile(
+                  leading: CircleAvatar(
+                    child: Text('# ${index + 1}'),
+                  ),
+                  title: Text(
+                    selectedMeal.steps[index],
+                  ),
                 ),
               ),
-            )),
+            ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => toggleFavourite(recipeId),
+        child: recipeIsFavourite(recipeId)
+            ? const Icon(Icons.favorite_rounded)
+            : const Icon(
+                Icons.favorite_outline_rounded,
+              ),
       ),
     );
   }
@@ -97,7 +113,7 @@ class _ListContainer extends StatelessWidget {
       ),
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
-      height: 200, // TODO: Use a MediaQuery to adjust this height
+      height: 200,
       width: 300,
       child: child,
     );

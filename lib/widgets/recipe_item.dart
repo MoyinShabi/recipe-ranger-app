@@ -21,8 +21,10 @@ class RecipeItem extends StatelessWidget {
   });
 
   void selectRecipe(BuildContext context) {
-    Navigator.of(context)
-        .pushNamed(RecipeDetailsScreen.routeName, arguments: id);
+    Navigator.of(context).pushNamed(
+      RecipeDetailsScreen.routeName,
+      arguments: id,
+    );
   }
 
   @override
