@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:recipe_ranger_app/constants/dummy_data.dart';
 
@@ -32,12 +31,6 @@ class RecipeDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(selectedMeal.title),
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark,
-        ),
       ),
       body: SingleChildScrollView(
         child: Column(

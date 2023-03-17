@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:recipe_ranger_app/constants/dummy_data.dart';
 import 'package:recipe_ranger_app/models/recipe.dart';
 
@@ -96,6 +97,15 @@ class _MyAppState extends State<MyApp> {
             color: Colors.black,
           ),
           iconTheme: IconThemeData(color: Colors.black),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          centerTitle: true,
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness:
+                Brightness.dark, // For Android (dark icons)
+            // statusBarBrightness: Brightness.light, // For iOS (light icons)
+          ),
         ),
       ),
       // home: const AllCategoriesScreen(),

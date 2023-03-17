@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:recipe_ranger_app/models/recipe.dart';
 import 'package:recipe_ranger_app/widgets/recipe_item.dart';
 
@@ -29,12 +28,6 @@ class CategoryRecipesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark,
-        ),
         title: Text(categoryTitle!),
       ),
       body: categoryRecipes.isEmpty

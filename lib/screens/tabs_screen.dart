@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:recipe_ranger_app/models/recipe.dart';
 import 'package:recipe_ranger_app/screens/all_categories_screen.dart';
 import 'package:recipe_ranger_app/screens/favourites_screen.dart';
@@ -49,14 +48,8 @@ class _TabsScreenState extends State<TabsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         elevation: 0.0,
         centerTitle: true,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
-          // statusBarBrightness: Brightness.light, // For iOS (light icons)
-        ),
         title: Text(_pages[_selectedPageIndex]['title']),
       ),
       drawer: const MainDrawer(),
