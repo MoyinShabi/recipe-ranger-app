@@ -1,50 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_ranger_app/screens/category_recipes_screen.dart';
+import 'package:recipe_ranger_app/models/category.dart';
 
 class CategoryItem extends StatelessWidget {
-  final String id;
-  final String title;
-  final Color color;
+  final Category category;
+  final void Function() onSelectCategory;
 
   const CategoryItem({
     super.key,
-    required this.title,
-    required this.color,
-    required this.id,
+    required this.category,
+    required this.onSelectCategory,
   });
-
-  void selectCategory(BuildContext context) {
-    Navigator.of(context).pushNamed(
-      CategoryRecipesScreen.routeName,
-      arguments: {
-        'id': id,
-        'title': title,
-      },
-      // The map is passed as arguments to the new screen which is loaded
-      // for the named route above which leads to the `CategoryRecipesScreen()`
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => selectCategory(context),
+      onTap: onSelectCategory,
       child: Container(
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
           gradient: LinearGradient(
             colors: [
-              color.withOpacity(0.7),
-              color,
+              category.color.withOpacity(0.55),
+              category.color.withOpacity(0.9),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
-          title,
-          style: Theme.of(context).textTheme.titleLarge,
+          category.title,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
       ),
     );

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_ranger_app/widgets/main_drawer.dart';
+
+enum Setting {
+  glutenFree,
+  lactoseFree,
+  vegetarian,
+  vegan,
+}
 
 class SettingsScreen extends StatefulWidget {
+  final Map<Setting, bool> currentSettings;
+
   const SettingsScreen({
     super.key,
-    required this.saveSettings,
     required this.currentSettings,
   });
-
-  static const routeName = '/settings';
-
-  final Map<String, bool> currentSettings;
-  final void Function(Map<String, bool>) saveSettings;
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -25,10 +27,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   void initState() {
-    _glutenFree = widget.currentSettings['gluten']!;
-    _lactoseFree = widget.currentSettings['lactose']!;
-    _vegetarian = widget.currentSettings['vegetarian']!;
-    _vegan = widget.currentSettings['vegan']!;
+    _glutenFree = widget.currentSettings[Setting.glutenFree]!;
+    _lactoseFree = widget.currentSettings[Setting.lactoseFree]!;
+    _vegetarian = widget.currentSettings[Setting.vegetarian]!;
+    _vegan = widget.currentSettings[Setting.vegan]!;
     super.initState();
   }
 
@@ -38,74 +40,70 @@ class _SettingsScreenState extends State<SettingsScreen> {
         appBar: AppBar(
           elevation: 0,
           title: const Text('Settings'),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  final selectedSettings = {
-                    'gluten': _glutenFree,
-                    'lactose': _lactoseFree,
-                    'vegan': _vegan,
-                    'vegetarian': _vegetarian,
-                  };
-                  widget.saveSettings(selectedSettings);
-                  Navigator.of(context).pushReplacementNamed('/');
-                },
-                icon: const Icon(Icons.save_rounded))
-          ],
         ),
-        drawer: const MainDrawer(),
-        body: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Expanded(
-              child: ListView(
-                children: [
-                  _SettingSwitch(
-                    settingTitle: 'Gluten-free',
-                    settingDescription: 'Only include gluten-free meals',
-                    currentValue: _glutenFree,
-                    updateValue: (newValue) {
-                      setState(() {
-                        _glutenFree = newValue;
-                      });
-                    },
-                  ),
-                  _SettingSwitch(
-                    settingTitle: 'Lactose-free',
-                    settingDescription: 'Only include lactose-free meals',
-                    currentValue: _lactoseFree,
-                    updateValue: (newValue) {
-                      setState(() {
-                        _lactoseFree = newValue;
-                      });
-                    },
-                  ),
-                  _SettingSwitch(
-                    settingTitle: 'Vegetarian',
-                    settingDescription: 'Only include vegetarian meals',
-                    currentValue: _vegetarian,
-                    updateValue: (newValue) {
-                      setState(() {
-                        _vegetarian = newValue;
-                      });
-                    },
-                  ),
-                  _SettingSwitch(
-                    settingTitle: 'Vegan',
-                    settingDescription: 'Only include vegan meals',
-                    currentValue: _vegan,
-                    updateValue: (newValue) {
-                      setState(() {
-                        _vegan = newValue;
-                      });
-                    },
-                  ),
-                ],
+        body: WillPopScope(
+          onWillPop: () async {
+            Navigator.of(context).pop({
+              Setting.glutenFree: _glutenFree,
+              Setting.lactoseFree: _lactoseFree,
+              Setting.vegetarian: _vegetarian,
+              Setting.vegan: _vegan,
+            });
+            return false;
+          },
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 20,
               ),
-            ),
-          ],
+              Expanded(
+                child: ListView(
+                  children: [
+                    _SettingSwitch(
+                      settingTitle: 'Gluten-free',
+                      settingDescription: 'Only include gluten-free meals',
+                      currentValue: _glutenFree,
+                      updateValue: (isToggled) {
+                        setState(() {
+                          _glutenFree = isToggled;
+                        });
+                      },
+                    ),
+                    _SettingSwitch(
+                      settingTitle: 'Lactose-free',
+                      settingDescription: 'Only include lactose-free meals',
+                      currentValue: _lactoseFree,
+                      updateValue: (isToggled) {
+                        setState(() {
+                          _lactoseFree = isToggled;
+                        });
+                      },
+                    ),
+                    _SettingSwitch(
+                      settingTitle: 'Vegetarian',
+                      settingDescription: 'Only include vegetarian meals',
+                      currentValue: _vegetarian,
+                      updateValue: (isToggled) {
+                        setState(() {
+                          _vegetarian = isToggled;
+                        });
+                      },
+                    ),
+                    _SettingSwitch(
+                      settingTitle: 'Vegan',
+                      settingDescription: 'Only include vegan meals',
+                      currentValue: _vegan,
+                      updateValue: (isToggled) {
+                        setState(() {
+                          _vegan = isToggled;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ));
   }
 }
@@ -125,17 +123,22 @@ class _SettingSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SwitchListTile(
+    return SwitchListTile.adaptive(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 0),
       title: Text(
         settingTitle,
         style: const TextStyle(
           fontSize: 19,
           fontWeight: FontWeight.bold,
+          color: Colors.white,
         ),
       ),
       subtitle: Text(
         settingDescription,
-        style: const TextStyle(fontSize: 15),
+        style: const TextStyle(
+          fontSize: 15,
+          color: Colors.grey,
+        ),
       ),
       value: currentValue,
       onChanged: updateValue,

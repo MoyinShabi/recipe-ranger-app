@@ -1,71 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_ranger_app/models/recipe.dart';
-import 'package:recipe_ranger_app/screens/recipe_details_screen.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class RecipeItem extends StatelessWidget {
-  final String id;
-  final String title;
-  final String imageUrl;
-  final int duration;
-  final Complexity complexity;
-  final Affordability affordability;
+  final Recipe recipe;
+  final void Function(Recipe recipe) onSelectRecipe;
 
   const RecipeItem({
     super.key,
-    required this.title,
-    required this.imageUrl,
-    required this.duration,
-    required this.complexity,
-    required this.affordability,
-    required this.id,
+    required this.recipe,
+    required this.onSelectRecipe,
   });
 
-  void selectRecipe(BuildContext context) {
-    Navigator.of(context).pushNamed(
-      RecipeDetailsScreen.routeName,
-      arguments: id,
-    );
+  String get complexityText {
+    return recipe.complexity.name[0].toUpperCase() +
+        recipe.complexity.name.substring(1);
+  }
+
+  String get affordabilityText {
+    return recipe.affordability.name[0].toUpperCase() +
+        recipe.affordability.name.substring(1);
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => selectRecipe(context),
+      onTap: () => onSelectRecipe(recipe),
       child: Card(
+        margin: const EdgeInsets.all(15),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: const BorderSide(
             color: Colors.grey,
           ),
         ),
-        margin: const EdgeInsets.all(15),
+        clipBehavior: Clip.hardEdge,
         child: Column(
           children: [
             Stack(
               children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  ),
-                  child: Image.network(
-                    imageUrl,
-                    height: 250,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
+                FadeInImage(
+                  placeholder: MemoryImage(kTransparentImage),
+                  image: NetworkImage(recipe.imageUrl),
+                  fit: BoxFit.cover,
+                  height: 200,
+                  width: double.infinity,
                 ),
                 Positioned(
-                  bottom: 20,
-                  right: 10,
+                  bottom: 0,
+                  right: 0,
+                  left: 0,
                   child: Container(
                     padding:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    width: 250,
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
                     color: Colors.black54,
                     child: Text(
-                      title,
-                      style: const TextStyle(fontSize: 24, color: Colors.white),
+                      recipe.title,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
                       softWrap: true,
                       overflow: TextOverflow.fade,
                     ),
@@ -78,26 +74,17 @@ class RecipeItem extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.schedule),
-                      const SizedBox(width: 4),
-                      Text('$duration min'),
-                    ],
+                  InfoWidget(
+                    icon: Icons.schedule,
+                    text: '${recipe.duration} min',
                   ),
-                  Row(
-                    children: [
-                      const Icon(Icons.error_outline_rounded),
-                      const SizedBox(width: 4),
-                      Text(complexity.name),
-                    ],
+                  InfoWidget(
+                    icon: Icons.error_outline_rounded,
+                    text: complexityText,
                   ),
-                  Row(
-                    children: [
-                      const Icon(Icons.attach_money_outlined),
-                      const SizedBox(width: 4),
-                      Text(affordability.name),
-                    ],
+                  InfoWidget(
+                    icon: Icons.attach_money_outlined,
+                    text: affordabilityText,
                   ),
                 ],
               ),
@@ -105,6 +92,34 @@ class RecipeItem extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class InfoWidget extends StatelessWidget {
+  const InfoWidget({
+    super.key,
+    required this.icon,
+    required this.text,
+  });
+
+  final String text;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon),
+        const SizedBox(width: 4),
+        Text(
+          text,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 12,
+          ),
+        ),
+      ],
     );
   }
 }

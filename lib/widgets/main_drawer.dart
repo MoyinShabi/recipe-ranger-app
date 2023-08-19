@@ -1,41 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_ranger_app/screens/settings_screen.dart';
 
 class MainDrawer extends StatelessWidget {
-  const MainDrawer({super.key});
+  final void Function(String identifier) onSelectScreen;
+  const MainDrawer({
+    super.key,
+    required this.onSelectScreen,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: Column(
         children: [
-          Container(
-            height: 120,
-            width: double.infinity,
+          DrawerHeader(
             padding: const EdgeInsets.all(20),
-            alignment: Alignment.bottomLeft,
-            color: Theme.of(context).colorScheme.primary,
-            child: const Text(
-              'Cooking Up!',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Raleway',
-                fontSize: 30,
-                color: Colors.black,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Theme.of(context).colorScheme.primaryContainer,
+                  Theme.of(context)
+                      .colorScheme
+                      .primaryContainer
+                      .withOpacity(0.8),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
             ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.fastfood,
+                  size: 48,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                const SizedBox(width: 18),
+                Text(
+                  'Cooking Up!',
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 20),
           _ListItem(
             text: 'Recipe Categories',
             icon: const Icon(Icons.restaurant_menu_rounded),
-            tapHandler: () => Navigator.of(context).pushReplacementNamed('/'),
+            tapHandler: () => onSelectScreen('categories'),
           ),
           _ListItem(
             text: 'Settings',
             icon: const Icon(Icons.settings),
-            tapHandler: () => Navigator.of(context)
-                .pushReplacementNamed(SettingsScreen.routeName),
+            tapHandler: () => onSelectScreen('settings'),
           )
         ],
       ),
@@ -60,9 +77,11 @@ class _ListItem extends StatelessWidget {
       title: Text(
         text,
         style: const TextStyle(
-            fontFamily: 'RobotoCondensed',
-            fontSize: 22,
-            fontWeight: FontWeight.bold),
+          fontFamily: 'Raleway',
+          color: Colors.white,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
       ),
       onTap: tapHandler,
     );

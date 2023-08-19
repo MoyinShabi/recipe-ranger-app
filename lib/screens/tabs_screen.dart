@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_ranger_app/constants/dummy_data.dart';
 import 'package:recipe_ranger_app/models/recipe.dart';
-import 'package:recipe_ranger_app/screens/all_categories_screen.dart';
-import 'package:recipe_ranger_app/screens/favourites_screen.dart';
+import 'package:recipe_ranger_app/screens/categories_screen.dart';
+import 'package:recipe_ranger_app/screens/recipes_screen.dart';
+import 'package:recipe_ranger_app/screens/settings_screen.dart';
 import 'package:recipe_ranger_app/widgets/main_drawer.dart';
+
+const _kInitialSettings = {
+  Setting.glutenFree: false,
+  Setting.lactoseFree: false,
+  Setting.vegan: false,
+  Setting.vegetarian: false,
+};
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({
     super.key,
-    required this.favouriteRecipes,
   });
-
-  final List<Recipe> favouriteRecipes;
 
   @override
   State<TabsScreen> createState() => _TabsScreenState();
@@ -18,25 +24,9 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   late List<Map<String, dynamic>> _pages;
-
   int _selectedPageIndex = 0;
-
-  @override
-  void initState() {
-    _pages = [
-      {
-        'page': const AllCategories(),
-        'title': 'Categories',
-      },
-      {
-        'page': FavouritesScreen(
-          favouriteRecipes: widget.favouriteRecipes,
-        ),
-        'title': 'Favourites',
-      },
-    ];
-    super.initState();
-  }
+  final List<Recipe> _favouriteRecipes = [];
+  Map<Setting, bool> _toggledSettings = _kInitialSettings;
 
   void _selectPage(int index) {
     setState(() {
@@ -45,31 +35,116 @@ class _TabsScreenState extends State<TabsScreen> {
   }
 
   @override
+  void initState() {
+    final filteredRecipes = dummyRecipes.where(
+      (recipe) {
+        if (_toggledSettings[Setting.glutenFree]! && !recipe.isGlutenFree) {
+          return false;
+        }
+        if (_toggledSettings[Setting.lactoseFree]! && !recipe.isLactoseFree) {
+          return false;
+        }
+        if (_toggledSettings[Setting.vegan]! && !recipe.isVegan) {
+          return false;
+        }
+        if (_toggledSettings[Setting.vegetarian]! && !recipe.isVegetarian) {
+          return false;
+        }
+        return true;
+      },
+    ).toList();
+    _pages = [
+      {
+        'page': CategoriesScreen(
+          onToggleFavourite: _toggleFavouriteRecipeStatus,
+          availableRecipes: filteredRecipes,
+        ),
+        'title': 'Categories',
+      },
+      {
+        'page': RecipesScreen(
+          availableRecipes: _favouriteRecipes,
+          onToggleFavourite: _toggleFavouriteRecipeStatus,
+        ),
+        'title': 'Favourites',
+      },
+    ];
+
+    super.initState();
+  }
+
+  void _showInfoMessage(String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
+  void _toggleFavouriteRecipeStatus(Recipe recipe) {
+    final isExisting = _favouriteRecipes.contains(recipe);
+
+    if (isExisting) {
+      setState(() {
+        _favouriteRecipes.remove(recipe);
+      });
+      _showInfoMessage('Recipe removed from favourites!');
+    } else {
+      setState(() {
+        _favouriteRecipes.add(recipe);
+      });
+      _showInfoMessage('Recipe added to favourites!');
+    }
+  }
+
+  void _showScreen(String identifier) async {
+    Navigator.of(context).pop();
+    if (identifier == 'settings') {
+      final result = await Navigator.of(context).push<Map<Setting, bool>>(
+        MaterialPageRoute(
+          builder: (ctx) => SettingsScreen(currentSettings: _toggledSettings),
+        ),
+      );
+      setState(() {
+        _toggledSettings = result ?? _kInitialSettings;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.0,
-        centerTitle: true,
-        title: Text(_pages[_selectedPageIndex]['title']),
-      ),
-      drawer: const MainDrawer(),
-      body: _pages[_selectedPageIndex]['page'],
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        unselectedItemColor: Colors.white,
-        selectedItemColor: Theme.of(context).colorScheme.secondary,
-        currentIndex: _selectedPageIndex,
-        onTap: _selectPage,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.category_rounded),
-            label: 'Categories',
+        title: Text(
+          _pages[_selectedPageIndex]['title'],
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_rounded),
-            label: 'Favourites',
-          )
-        ],
+        ),
+      ),
+      drawer: MainDrawer(onSelectScreen: _showScreen),
+      body: _pages[_selectedPageIndex]['page'],
+      bottomNavigationBar: SizedBox(
+        height: 70,
+        child: NavigationBar(
+          indicatorColor: Colors.transparent,
+          selectedIndex: _selectedPageIndex,
+          onDestinationSelected: _selectPage,
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.category_rounded),
+              label: 'Categories',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.favorite_rounded),
+              label: 'Favourites',
+            )
+          ],
+        ),
       ),
     );
   }
