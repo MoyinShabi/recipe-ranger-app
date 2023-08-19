@@ -23,7 +23,6 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  late List<Map<String, dynamic>> _pages;
   int _selectedPageIndex = 0;
   final List<Recipe> _favouriteRecipes = [];
   Map<Setting, bool> _toggledSettings = _kInitialSettings;
@@ -32,45 +31,6 @@ class _TabsScreenState extends State<TabsScreen> {
     setState(() {
       _selectedPageIndex = index;
     });
-  }
-
-  @override
-  void initState() {
-    final filteredRecipes = dummyRecipes.where(
-      (recipe) {
-        if (_toggledSettings[Setting.glutenFree]! && !recipe.isGlutenFree) {
-          return false;
-        }
-        if (_toggledSettings[Setting.lactoseFree]! && !recipe.isLactoseFree) {
-          return false;
-        }
-        if (_toggledSettings[Setting.vegan]! && !recipe.isVegan) {
-          return false;
-        }
-        if (_toggledSettings[Setting.vegetarian]! && !recipe.isVegetarian) {
-          return false;
-        }
-        return true;
-      },
-    ).toList();
-    _pages = [
-      {
-        'page': CategoriesScreen(
-          onToggleFavourite: _toggleFavouriteRecipeStatus,
-          availableRecipes: filteredRecipes,
-        ),
-        'title': 'Categories',
-      },
-      {
-        'page': RecipesScreen(
-          availableRecipes: _favouriteRecipes,
-          onToggleFavourite: _toggleFavouriteRecipeStatus,
-        ),
-        'title': 'Favourites',
-      },
-    ];
-
-    super.initState();
   }
 
   void _showInfoMessage(String message) {
@@ -116,10 +76,38 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final filteredRecipes = dummyRecipes.where((recipe) {
+      if (_toggledSettings[Setting.glutenFree]! && !recipe.isGlutenFree) {
+        return false;
+      }
+      if (_toggledSettings[Setting.lactoseFree]! && !recipe.isLactoseFree) {
+        return false;
+      }
+      if (_toggledSettings[Setting.vegetarian]! && !recipe.isVegetarian) {
+        return false;
+      }
+      if (_toggledSettings[Setting.vegan]! && !recipe.isVegan) {
+        return false;
+      }
+      return true;
+    }).toList();
+
+    Widget activePage = CategoriesScreen(
+        onToggleFavourite: _toggleFavouriteRecipeStatus,
+        availableRecipes: filteredRecipes);
+    var activePageTitle = 'Categories';
+
+    if (_selectedPageIndex == 1) {
+      activePage = RecipesScreen(
+        availableRecipes: _favouriteRecipes,
+        onToggleFavourite: _toggleFavouriteRecipeStatus,
+      );
+      activePageTitle = 'Favorites';
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _pages[_selectedPageIndex]['title'],
+          activePageTitle,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -127,7 +115,7 @@ class _TabsScreenState extends State<TabsScreen> {
         ),
       ),
       drawer: MainDrawer(onSelectScreen: _showScreen),
-      body: _pages[_selectedPageIndex]['page'],
+      body: activePage,
       bottomNavigationBar: SizedBox(
         height: 70,
         child: NavigationBar(
