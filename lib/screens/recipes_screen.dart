@@ -6,13 +6,11 @@ import 'package:recipe_ranger_app/widgets/recipe_item.dart';
 class RecipesScreen extends StatelessWidget {
   final String? title;
   final List<Recipe> availableRecipes;
-  final void Function(Recipe recipe) onToggleFavourite;
 
   const RecipesScreen({
     super.key,
     this.title,
     required this.availableRecipes,
-    required this.onToggleFavourite,
   });
 
   void _selectRecipe(BuildContext context, Recipe selectedRecipe) {
@@ -20,7 +18,6 @@ class RecipesScreen extends StatelessWidget {
       MaterialPageRoute(
         builder: (ctx) => RecipeDetailsScreen(
           recipe: selectedRecipe,
-          onToggleFavouriteRecipe: onToggleFavourite,
         ),
       ),
     );
@@ -55,7 +52,12 @@ class RecipesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(title!),
+        title: Text(
+          title!,
+          style: const TextStyle(
+            fontSize: 20,
+          ),
+        ),
       ),
       body: pageContent,
     );

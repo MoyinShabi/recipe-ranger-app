@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:recipe_ranger_app/models/recipe.dart';
+import 'package:recipe_ranger_app/providers/favourites_provider.dart';
 
-class RecipeDetailsScreen extends StatelessWidget {
+class RecipeDetailsScreen extends ConsumerWidget {
+  final Recipe recipe;
+
   const RecipeDetailsScreen({
     super.key,
     required this.recipe,
-    required this.onToggleFavouriteRecipe,
   });
 
-  final Recipe recipe;
-  final void Function(Recipe recipe) onToggleFavouriteRecipe;
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -22,7 +22,23 @@ class RecipeDetailsScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () => onToggleFavouriteRecipe(recipe),
+            onPressed: () {
+              final wasAdded = ref
+                  .read(favouriteRecipesProvier.notifier)
+                  .toggleFavouriteStatus(recipe);
+              ScaffoldMessenger.of(context).clearSnackBars();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    wasAdded
+                        ? 'Added to favourites!'
+                        : 'Removed from favourites!',
+                  ),
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                  duration: const Duration(seconds: 1),
+                ),
+              );
+            },
             icon: const Icon(Icons.favorite_border),
           )
         ],
