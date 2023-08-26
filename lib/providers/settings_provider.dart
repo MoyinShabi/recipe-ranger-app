@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_ranger_app/providers/recipes_providers.dart';
 
 enum Setting {
   glutenFree,
@@ -6,11 +7,6 @@ enum Setting {
   vegetarian,
   vegan,
 }
-
-final settingsProvider =
-    StateNotifierProvider<SettingsNotifier, Map<Setting, bool>>(
-  (ref) => SettingsNotifier(),
-);
 
 class SettingsNotifier extends StateNotifier<Map<Setting, bool>> {
   SettingsNotifier()
@@ -21,7 +17,7 @@ class SettingsNotifier extends StateNotifier<Map<Setting, bool>> {
           Setting.vegetarian: false,
         });
 
-  void getCurrentSettings(Map<Setting, bool> currentSettings) {
+  void saveCurrentSettings(Map<Setting, bool> currentSettings) {
     state = currentSettings;
   }
 
@@ -33,3 +29,29 @@ class SettingsNotifier extends StateNotifier<Map<Setting, bool>> {
     };
   }
 }
+
+final settingsProvider =
+    StateNotifierProvider<SettingsNotifier, Map<Setting, bool>>(
+  (ref) => SettingsNotifier(),
+);
+
+final filteredRecipesProvider = Provider((ref) {
+  final recipes = ref.watch(recipesProvider);
+  final currentSettings = ref.watch(settingsProvider);
+  // The function will only get re-executed when the values of the watched providers change.
+  return recipes.where((recipe) {
+    if (currentSettings[Setting.glutenFree]! && !recipe.isGlutenFree) {
+      return false;
+    }
+    if (currentSettings[Setting.lactoseFree]! && !recipe.isLactoseFree) {
+      return false;
+    }
+    if (currentSettings[Setting.vegetarian]! && !recipe.isVegetarian) {
+      return false;
+    }
+    if (currentSettings[Setting.vegan]! && !recipe.isVegan) {
+      return false;
+    }
+    return true;
+  }).toList();
+});

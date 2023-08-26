@@ -3,102 +3,74 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:recipe_ranger_app/providers/settings_provider.dart';
 
-class SettingsScreen extends ConsumerStatefulWidget {
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({
     super.key,
   });
 
   @override
-  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends ConsumerState<SettingsScreen> {
-  bool _glutenFreeSetting = false;
-  bool _lactoseFreeSetting = false;
-  bool _vegetarianSetting = false;
-  bool _veganSetting = false;
-
-  @override
-  void initState() {
-    final activeSettings = ref.read(settingsProvider);
-    _glutenFreeSetting = activeSettings[Setting.glutenFree]!;
-    _lactoseFreeSetting = activeSettings[Setting.lactoseFree]!;
-    _vegetarianSetting = activeSettings[Setting.vegetarian]!;
-    _veganSetting = activeSettings[Setting.vegan]!;
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentSettings = ref.watch(settingsProvider);
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
           title: const Text('Settings'),
         ),
-        body: WillPopScope(
-          onWillPop: () async {
-            ref.read(settingsProvider.notifier).getCurrentSettings({
-              Setting.glutenFree: _glutenFreeSetting,
-              Setting.lactoseFree: _lactoseFreeSetting,
-              Setting.vegetarian: _vegetarianSetting,
-              Setting.vegan: _veganSetting,
-            });
-
-            return true;
-          },
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 20,
+        body: Column(
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: ListView(
+                children: [
+                  _SettingSwitch(
+                    settingTitle: 'Gluten-free',
+                    settingDescription: 'Only include gluten-free meals',
+                    currentValue: currentSettings[Setting.glutenFree]!,
+                    updateValue: (isToggled) {
+                      ref
+                          .read(settingsProvider.notifier)
+                          .toggleSetting(Setting.glutenFree, isToggled);
+                    },
+                  ),
+                  _SettingSwitch(
+                    settingTitle: 'Lactose-free',
+                    settingDescription: 'Only include lactose-free meals',
+                    currentValue: currentSettings[Setting.lactoseFree]!,
+                    updateValue: (isToggled) {
+                      ref.read(settingsProvider.notifier).toggleSetting(
+                            Setting.lactoseFree,
+                            isToggled,
+                          );
+                    },
+                  ),
+                  _SettingSwitch(
+                    settingTitle: 'Vegetarian',
+                    settingDescription: 'Only include vegetarian meals',
+                    currentValue: currentSettings[Setting.vegetarian]!,
+                    updateValue: (isToggled) {
+                      ref.read(settingsProvider.notifier).toggleSetting(
+                            Setting.vegetarian,
+                            isToggled,
+                          );
+                    },
+                  ),
+                  _SettingSwitch(
+                    settingTitle: 'Vegan',
+                    settingDescription: 'Only include vegan meals',
+                    currentValue: currentSettings[Setting.vegan]!,
+                    updateValue: (isToggled) {
+                      ref.read(settingsProvider.notifier).toggleSetting(
+                            Setting.vegan,
+                            isToggled,
+                          );
+                    },
+                  ),
+                ],
               ),
-              Expanded(
-                child: ListView(
-                  children: [
-                    _SettingSwitch(
-                      settingTitle: 'Gluten-free',
-                      settingDescription: 'Only include gluten-free meals',
-                      currentValue: _glutenFreeSetting,
-                      updateValue: (isToggled) {
-                        setState(() {
-                          _glutenFreeSetting = isToggled;
-                        });
-                      },
-                    ),
-                    _SettingSwitch(
-                      settingTitle: 'Lactose-free',
-                      settingDescription: 'Only include lactose-free meals',
-                      currentValue: _lactoseFreeSetting,
-                      updateValue: (isToggled) {
-                        setState(() {
-                          _lactoseFreeSetting = isToggled;
-                        });
-                      },
-                    ),
-                    _SettingSwitch(
-                      settingTitle: 'Vegetarian',
-                      settingDescription: 'Only include vegetarian meals',
-                      currentValue: _vegetarianSetting,
-                      updateValue: (isToggled) {
-                        setState(() {
-                          _vegetarianSetting = isToggled;
-                        });
-                      },
-                    ),
-                    _SettingSwitch(
-                      settingTitle: 'Vegan',
-                      settingDescription: 'Only include vegan meals',
-                      currentValue: _veganSetting,
-                      updateValue: (isToggled) {
-                        setState(() {
-                          _veganSetting = isToggled;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ));
   }
 }

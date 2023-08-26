@@ -6,7 +6,6 @@ import 'package:recipe_ranger_app/screens/categories_screen.dart';
 import 'package:recipe_ranger_app/screens/recipes_screen.dart';
 import 'package:recipe_ranger_app/screens/settings_screen.dart';
 import 'package:recipe_ranger_app/widgets/main_drawer.dart';
-import 'package:recipe_ranger_app/providers/recipes_providers.dart';
 import 'package:recipe_ranger_app/providers/settings_provider.dart';
 
 class TabsScreen extends ConsumerStatefulWidget {
@@ -40,23 +39,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final recipes = ref.watch(recipesProvider);
-    final toggledSettings = ref.watch(settingsProvider);
-    final filteredRecipes = recipes.where((recipe) {
-      if (toggledSettings[Setting.glutenFree]! && !recipe.isGlutenFree) {
-        return false;
-      }
-      if (toggledSettings[Setting.lactoseFree]! && !recipe.isLactoseFree) {
-        return false;
-      }
-      if (toggledSettings[Setting.vegetarian]! && !recipe.isVegetarian) {
-        return false;
-      }
-      if (toggledSettings[Setting.vegan]! && !recipe.isVegan) {
-        return false;
-      }
-      return true;
-    }).toList();
+    final filteredRecipes = ref.watch(filteredRecipesProvider);
 
     Widget activePage = CategoriesScreen(availableRecipes: filteredRecipes);
     var activePageTitle = 'Categories';
