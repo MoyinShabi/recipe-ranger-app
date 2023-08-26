@@ -1,36 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum Setting {
-  glutenFree,
-  lactoseFree,
-  vegetarian,
-  vegan,
-}
+import 'package:recipe_ranger_app/providers/settings_provider.dart';
 
-class SettingsScreen extends StatefulWidget {
-  final Map<Setting, bool> currentSettings;
-
+class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({
     super.key,
-    required this.currentSettings,
   });
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
-  bool _glutenFree = false;
-  bool _lactoseFree = false;
-  bool _vegetarian = false;
-  bool _vegan = false;
+class _SettingsScreenState extends ConsumerState<SettingsScreen> {
+  bool _glutenFreeSetting = false;
+  bool _lactoseFreeSetting = false;
+  bool _vegetarianSetting = false;
+  bool _veganSetting = false;
 
   @override
   void initState() {
-    _glutenFree = widget.currentSettings[Setting.glutenFree]!;
-    _lactoseFree = widget.currentSettings[Setting.lactoseFree]!;
-    _vegetarian = widget.currentSettings[Setting.vegetarian]!;
-    _vegan = widget.currentSettings[Setting.vegan]!;
+    final activeSettings = ref.read(settingsProvider);
+    _glutenFreeSetting = activeSettings[Setting.glutenFree]!;
+    _lactoseFreeSetting = activeSettings[Setting.lactoseFree]!;
+    _vegetarianSetting = activeSettings[Setting.vegetarian]!;
+    _veganSetting = activeSettings[Setting.vegan]!;
     super.initState();
   }
 
@@ -43,13 +37,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         body: WillPopScope(
           onWillPop: () async {
-            Navigator.of(context).pop({
-              Setting.glutenFree: _glutenFree,
-              Setting.lactoseFree: _lactoseFree,
-              Setting.vegetarian: _vegetarian,
-              Setting.vegan: _vegan,
+            ref.read(settingsProvider.notifier).getCurrentSettings({
+              Setting.glutenFree: _glutenFreeSetting,
+              Setting.lactoseFree: _lactoseFreeSetting,
+              Setting.vegetarian: _vegetarianSetting,
+              Setting.vegan: _veganSetting,
             });
-            return false;
+
+            return true;
           },
           child: Column(
             children: [
@@ -62,40 +57,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _SettingSwitch(
                       settingTitle: 'Gluten-free',
                       settingDescription: 'Only include gluten-free meals',
-                      currentValue: _glutenFree,
+                      currentValue: _glutenFreeSetting,
                       updateValue: (isToggled) {
                         setState(() {
-                          _glutenFree = isToggled;
+                          _glutenFreeSetting = isToggled;
                         });
                       },
                     ),
                     _SettingSwitch(
                       settingTitle: 'Lactose-free',
                       settingDescription: 'Only include lactose-free meals',
-                      currentValue: _lactoseFree,
+                      currentValue: _lactoseFreeSetting,
                       updateValue: (isToggled) {
                         setState(() {
-                          _lactoseFree = isToggled;
+                          _lactoseFreeSetting = isToggled;
                         });
                       },
                     ),
                     _SettingSwitch(
                       settingTitle: 'Vegetarian',
                       settingDescription: 'Only include vegetarian meals',
-                      currentValue: _vegetarian,
+                      currentValue: _vegetarianSetting,
                       updateValue: (isToggled) {
                         setState(() {
-                          _vegetarian = isToggled;
+                          _vegetarianSetting = isToggled;
                         });
                       },
                     ),
                     _SettingSwitch(
                       settingTitle: 'Vegan',
                       settingDescription: 'Only include vegan meals',
-                      currentValue: _vegan,
+                      currentValue: _veganSetting,
                       updateValue: (isToggled) {
                         setState(() {
-                          _vegan = isToggled;
+                          _veganSetting = isToggled;
                         });
                       },
                     ),

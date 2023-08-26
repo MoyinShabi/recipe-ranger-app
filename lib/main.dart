@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:recipe_ranger_app/screens/tabs_screen.dart';
 
 final darkTheme = ThemeData(
     useMaterial3: true,
+    splashColor: Colors.transparent,
+    // highlightColor: Colors.transparent,
+    splashFactory: NoSplash.splashFactory,
     colorScheme: ColorScheme.fromSeed(
       brightness: Brightness.dark,
       seedColor: Colors.blue,
@@ -20,7 +24,7 @@ final darkTheme = ThemeData(
       centerTitle: true,
     ));
 
-void main() => runApp(const MyApp());
+void main() => runApp(const ProviderScope(child: MyApp()));
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
