@@ -14,6 +14,8 @@ class RecipeDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final favouriteRecipes = ref.watch(favouriteRecipesProvier);
+    final isFavourite = favouriteRecipes.contains(recipe);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -39,7 +41,10 @@ class RecipeDetailsScreen extends ConsumerWidget {
                 ),
               );
             },
-            icon: const Icon(Icons.favorite_border),
+            icon: Icon(
+              isFavourite ? Icons.favorite : Icons.favorite_outline,
+              color: Theme.of(context).colorScheme.secondary,
+            ),
           )
         ],
       ),

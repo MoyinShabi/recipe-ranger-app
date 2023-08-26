@@ -25,13 +25,27 @@ class RecipesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget pageContent = Center(
-      child: Text(
-        'Oops...nothing to show here!',
-        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+    Widget pageContent = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          'assets/images/nothing.png',
+          height: 300,
+          width: 300,
+        ),
+        SizedBox(
+          width: double.infinity,
+          child: Text(
+            'Oops...nothing to show here!',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 20,
               color: Theme.of(context).colorScheme.onBackground,
             ),
-      ),
+          ),
+        ),
+        const SizedBox(height: 60),
+      ],
     );
 
     if (availableRecipes.isNotEmpty) {

@@ -46,6 +46,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
 
     if (_selectedPageIndex == 1) {
       final favouriteRecipes = ref.watch(favouriteRecipesProvier);
+
       activePage = RecipesScreen(
         availableRecipes: favouriteRecipes,
       );
