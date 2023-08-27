@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_ranger_app/models/recipe.dart';
+import 'package:recipe_ranger_app/screens/recipe_details_screen.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class RecipeItem extends StatelessWidget {
   final Recipe recipe;
-  final void Function(Recipe recipe) onSelectRecipe;
 
   const RecipeItem({
     super.key,
     required this.recipe,
-    required this.onSelectRecipe,
   });
 
   String get complexityText {
@@ -22,10 +21,20 @@ class RecipeItem extends StatelessWidget {
         recipe.affordability.name.substring(1);
   }
 
+  void selectRecipe(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => RecipeDetailsScreen(
+          recipe: recipe,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onSelectRecipe(recipe),
+      onTap: () => selectRecipe(context),
       child: Card(
         margin: const EdgeInsets.all(15),
         shape: RoundedRectangleBorder(

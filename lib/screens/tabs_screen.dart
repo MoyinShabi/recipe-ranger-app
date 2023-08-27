@@ -40,9 +40,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredRecipes = ref.watch(filteredRecipesProvider);
-
-    Widget activePage = CategoriesScreen(availableRecipes: filteredRecipes);
+    Widget activePage = const CategoriesScreen();
     var activePageTitle = 'Categories';
 
     if (_selectedPageIndex == 1) {
