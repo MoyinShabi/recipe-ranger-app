@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:solar_icons/solar_icons.dart';
 
 import 'package:recipe_ranger_app/providers/favourites_provider.dart';
 import 'package:recipe_ranger_app/screens/categories_screen.dart';
@@ -67,6 +68,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       bottomNavigationBar: SizedBox(
         height: 70,
         child: NavigationBar(
+          elevation: 0,
           indicatorShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
           ),
@@ -75,11 +77,11 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
           onDestinationSelected: _selectPage,
           destinations: const [
             NavigationDestination(
-              icon: Icon(Icons.category_rounded),
+              icon: Icon(SolarIconsBold.widget_2),
               label: 'Categories',
             ),
             NavigationDestination(
-              icon: Icon(Icons.favorite_rounded),
+              icon: Icon(SolarIconsBold.heartAngle),
               label: 'Favourites',
             )
           ],

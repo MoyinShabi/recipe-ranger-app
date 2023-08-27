@@ -251,6 +251,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  iconly:
+    dependency: "direct main"
+    description:
+      name: iconly
+      sha256: "22f16dd28984d232891299ead9d9b75ae5a32b4d9cdf63e8e574f1ceb11dcbd9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   json_annotation:
     dependency: transitive
     description:
@@ -432,6 +440,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  solar_icons:
+    dependency: "direct main"
+    description:
+      name: solar_icons
+      sha256: "2865a62fb0a39a7c2403205bfe05453bd3f2fedbaa8e5c3d436cf2a080afe259"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
   source_span:
     dependency: transitive
     description:

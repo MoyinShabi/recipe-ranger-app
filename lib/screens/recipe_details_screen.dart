@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconly/iconly.dart';
 
 import 'package:recipe_ranger_app/models/recipe.dart';
 import 'package:recipe_ranger_app/providers/favourites_provider.dart';
@@ -42,7 +43,7 @@ class RecipeDetailsScreen extends ConsumerWidget {
               );
             },
             icon: Icon(
-              isFavourite ? Icons.favorite : Icons.favorite_outline,
+              isFavourite ? IconlyBold.heart : IconlyLight.heart,
               color: Theme.of(context).colorScheme.secondary,
             ),
           )
