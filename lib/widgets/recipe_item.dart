@@ -48,12 +48,15 @@ class RecipeItem extends StatelessWidget {
           children: [
             Stack(
               children: [
-                FadeInImage(
-                  placeholder: MemoryImage(kTransparentImage),
-                  image: NetworkImage(recipe.imageUrl),
-                  fit: BoxFit.cover,
-                  height: 200,
-                  width: double.infinity,
+                Hero(
+                  tag: recipe.id,
+                  child: FadeInImage(
+                    placeholder: MemoryImage(kTransparentImage),
+                    image: NetworkImage(recipe.imageUrl),
+                    fit: BoxFit.cover,
+                    height: 200,
+                    width: double.infinity,
+                  ),
                 ),
                 Positioned(
                   bottom: 0,
