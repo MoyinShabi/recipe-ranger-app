@@ -42,9 +42,17 @@ class RecipeDetailsScreen extends ConsumerWidget {
                 ),
               );
             },
-            icon: Icon(
-              isFavourite ? IconlyBold.heart : IconlyLight.heart,
-              color: Theme.of(context).colorScheme.secondary,
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              transitionBuilder: (child, animation) => RotationTransition(
+                turns: Tween(begin: 0.7, end: 1.0).animate(animation),
+                child: child,
+              ),
+              child: Icon(
+                isFavourite ? IconlyBold.heart : IconlyLight.heart,
+                key: ValueKey(isFavourite),
+                color: Theme.of(context).colorScheme.secondary,
+              ),
             ),
           )
         ],
