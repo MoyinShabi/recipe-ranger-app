@@ -28,7 +28,7 @@ class RecipesScreen extends StatelessWidget {
             'Oops...nothing to show here!',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 16,
               color: Theme.of(context).colorScheme.onBackground,
             ),
           ),
