@@ -7,7 +7,7 @@ import 'package:recipe_ranger_app/screens/tabs_screen.dart';
 final darkTheme = ThemeData(
     useMaterial3: true,
     splashColor: Colors.transparent,
-    // highlightColor: Colors.transparent,
+    highlightColor: Colors.transparent,
     splashFactory: NoSplash.splashFactory,
     colorScheme: ColorScheme.fromSeed(
       brightness: Brightness.dark,
