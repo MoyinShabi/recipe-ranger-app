@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconly/iconly.dart';
 import 'package:solar_icons/solar_icons.dart';
 
 import 'package:recipe_ranger_app/providers/favourites_provider.dart';
@@ -79,7 +80,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
               label: 'Categories',
             ),
             NavigationDestination(
-              icon: Icon(SolarIconsBold.heartAngle),
+              icon: Icon(IconlyBold.heart),
               label: 'Favourites',
             )
           ],

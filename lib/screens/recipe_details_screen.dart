@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:iconly/iconly.dart';
 
 import 'package:recipe_ranger_app/models/recipe.dart';
 import 'package:recipe_ranger_app/providers/favourites_provider.dart';
+import 'package:solar_icons/solar_icons.dart';
 
 class RecipeDetailsScreen extends ConsumerWidget {
   final Recipe recipe;
@@ -49,7 +49,9 @@ class RecipeDetailsScreen extends ConsumerWidget {
                 child: child,
               ),
               child: Icon(
-                isFavourite ? IconlyBold.heart : IconlyLight.heart,
+                isFavourite
+                    ? SolarIconsBold.heartAngle
+                    : SolarIconsOutline.heartAngle,
                 key: ValueKey(isFavourite),
                 color: Theme.of(context).colorScheme.secondary,
               ),
